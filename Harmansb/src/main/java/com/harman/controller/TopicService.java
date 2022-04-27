@@ -1,5 +1,6 @@
 package com.harman.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -12,12 +13,12 @@ import com.harman.model.Topic;
 @Service
 public class TopicService {
 	
-	private List<Topic> topics = Arrays.asList(
+	private List<Topic> topics = new ArrayList<>(Arrays.asList(
 			new Topic("spring","spring framework","description about spring framework"),
 			new Topic("java","java framework","description about java framework"),
 			new Topic("javascript","javascript framework","description about javascript framework")
 
-			);
+			));
 	
 	public List<Topic> getAllTopics() {
 		return topics;
@@ -33,6 +34,11 @@ public class TopicService {
 		.findFirst()
 		.get();
 		
+	}
+
+
+	public void addTopic(Topic topic) {
+		topics.add(topic);
 	}
 
 }
