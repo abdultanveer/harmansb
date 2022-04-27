@@ -3,28 +3,31 @@ package com.harman.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.harman.model.Topic;
 
+//let the controller control the incomming requests -- watchman
 @RestController
 public class TopicController {
 
+	@Autowired
+	private TopicService topicService;
+	
+	
 	@RequestMapping("/topics")
 	public List<Topic> getAllTopics() {
-		return allTopics();
-				//"all the topics";
+		return topicService.getAllTopics();
 	}
 	
-	List<Topic> allTopics(){
+	@RequestMapping("/topics/{id}")
+	public Topic getTopic(@PathVariable String id) {
+		return topicService.getTopic(id);
 		
-		return Arrays.asList(
-				new Topic("spring","spring framework","description about spring framework"),
-				new Topic("java","java framework","description about java framework"),
-				new Topic("javascript","javascript framework","description about javascript framework")
-
-				);
 	}
+	
 
 }
