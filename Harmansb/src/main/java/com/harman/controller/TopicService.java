@@ -3,15 +3,21 @@ package com.harman.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.harman.db.TopicRepository;
 import com.harman.model.Topic;
 
 //serve the customer with data
 @Service
 public class TopicService {
+	
+	@Autowired
+	TopicRepository topicRepository;
 	
 	private List<Topic> topics = new ArrayList<>(Arrays.asList(
 			new Topic("spring","spring framework","description about spring framework"),
@@ -21,24 +27,29 @@ public class TopicService {
 			));
 	
 	public List<Topic> getAllTopics() {
-		return topics;
+		List<Topic> topics = new ArrayList<>();
+		 topicRepository.findAll().forEach(topics::add);
+		 return topics;
+				
 	}
 	
 
 	public Topic getTopic(String tid) {
-		Predicate<Topic> filterTopic = (topic)->{ return topic.getId().equals(tid);};
-	
-		return	topics.stream()
-		.filter(
-				topic -> topic.getId().equals(tid))
-		.findFirst()
-		.get();
+		/*
+		 * Predicate<Topic> filterTopic = (topic)->{ return topic.getId().equals(tid);};
+		 * 
+		 * return topics.stream() .filter( topic -> topic.getId().equals(tid))
+		 * .findFirst() .get();
+		 */
+		
+		return topicRepository.findById(tid).get();
 		
 	}
 
 
 	public void addTopic(Topic topic) {
-		topics.add(topic);
+		//topics.add(topic);
+		topicRepository.save(topic);
 	}
 
 
